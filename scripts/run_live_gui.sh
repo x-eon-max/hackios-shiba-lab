@@ -34,4 +34,5 @@ exec qemu-system-aarch64 \
     -device virtio-tablet-device \
     -device virtio-keyboard-device \
     -display gtk \
+    -no-shutdown \
     -serial stdio
