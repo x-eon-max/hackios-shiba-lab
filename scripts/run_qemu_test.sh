@@ -19,17 +19,20 @@ python3 "$ROOT_DIR/tools/mkpayload.py" -o "$QEMU_DIR/payload.bin" \
     --cmdline "-v cpus=1"
 
 echo "[*] Lancement de QEMU ARM64 (virt, GICv3, Cortex-A76)..."
-timeout 15 qemu-system-aarch64 \
-    -M virt,gic-version=3 \
-    -cpu cortex-a76 \
-    -smp 1 \
-    -m 4G \
-    -accel tcg,tb-size=384 \
-    -drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2/aarch64/QEMU_EFI.fd \
-    -drive if=pflash,format=raw,file="$QEMU_DIR/vars.fd" \
-    -drive file=fat:rw:"$QEMU_DIR/esp",format=raw,if=virtio \
-    -device loader,file="$QEMU_DIR/payload.bin",addr=0xF0000000,force-raw=on \
-    -display none -serial stdio -monitor none -no-reboot 2>&1 | tee "$ROOT_DIR/qemu_run.log" || true
+(
+    cd "$QEMU_DIR"
+    timeout 15 qemu-system-aarch64 \
+        -M virt,gic-version=3 \
+        -cpu cortex-a76 \
+        -smp 1 \
+        -m 4G \
+        -accel tcg,tb-size=384 \
+        -drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2/aarch64/QEMU_EFI.fd \
+        -drive if=pflash,format=raw,file=vars.fd \
+        -drive file=fat:rw:esp,format=raw,if=virtio \
+        -device loader,file=payload.bin,addr=0xF0000000,force-raw=on \
+        -display none -serial stdio -monitor none -no-reboot </dev/null 2>&1
+) | tee "$ROOT_DIR/qemu_run.log" || true
 
 echo ""
 echo "=== Test terminé. Journal sauvegardé dans $ROOT_DIR/qemu_run.log ==="
