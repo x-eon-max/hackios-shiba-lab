@@ -1,0 +1,5 @@
+*.log
+build_obj/
+*.pyc
+__pycache__/
+.DS_Store

@@ -1,0 +1,24 @@
+--- a/xnuloader/loader.c
++++ b/xnuloader/loader.c
+@@ -555,6 +555,16 @@ static const struct platform platform_redwood = {
+ 	.fb_base = 0xE1000000,
+ };
+ 
++static const struct platform platform_shiba = {
++	.name = "shiba",
++	.io_base = 0x10000000, .io_size = 0x30000000,   /* Fenêtre MMIO Zuma */
++	.gic_dist = 0x10400000, .gic_redist = 0x10440000,
++	.uart = 0,                                      /* Driver Exynos UART */
++	.log_other_cpu = 1,
++	.cores = 9, .core_shift = 8,
++	.small_cores = 0x000F,                          /* 4x Cortex-A510 */
++	.fb_base = 0x0,                                 /* Renseigné par UEFI GOP */
++};
++
+ /*
+  * The devices the loader knows, told apart by the framebuffer base their UEFI reports.
+  */
+ static const struct platform *const platforms[] = {
+ 	&platform_redwood,
++	&platform_shiba,
+ };
