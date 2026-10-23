@@ -32,7 +32,8 @@ echo "[*] Lancement de QEMU ARM64 (virt, GICv3, Cortex-A76)..."
         -drive file=fat:rw:esp,format=raw,if=virtio \
         -device loader,file=payload.bin,addr=0xF0000000,force-raw=on \
         -device ramfb \
-        -display none -serial stdio -monitor none -no-reboot </dev/null 2>&1
+        -monitor tcp:127.0.0.1:4444,server,nowait \
+        -display none -serial stdio -no-reboot </dev/null 2>&1
 ) | tee "$ROOT_DIR/qemu_run.log" || true
 
 echo ""
