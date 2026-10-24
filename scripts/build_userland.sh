@@ -48,7 +48,22 @@ ln -sf /redwood "$TMP_ROOT/shiba"
 ln -sf private/var/tmp "$TMP_ROOT/tmp"
 
 # Fichiers de configuration
-echo "Darwin on redwood: image built $(date '+%Y-%m-%d %H:%M')" > "$TMP_ROOT/etc/motd"
+cat << 'EOF' > "$TMP_ROOT/etc/motd"
+Darwin on Shiba (Tensor G3 / Pixel 8)
+
+                    .:'
+                 __ :'__
+              .'`__`-'__``.
+             :__________.-'
+             :_________:
+              :_________`-;
+               `.__.-.__.'
+
+       [ Apple Inc. - Darwin 22.5.0 ]
+EOF
+
+# Script rc pour maintenir la machine active et éviter le bootloop (pause au lieu de reboot immédiat)
+echo "sleep 999999" > "$TMP_ROOT/etc/rc"
 cp "$ROOT_DIR/config/var.skel" "$TMP_ROOT/etc/var.skel"
 
 # Fichier pattern (300 000 octets) pour le test mmap/read

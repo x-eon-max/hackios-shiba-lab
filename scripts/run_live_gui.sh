@@ -30,9 +30,10 @@ exec qemu-system-aarch64 \
     -drive file=fat:rw:esp,format=raw,if=virtio \
     -device loader,file=payload.bin,addr=0xF0000000,force-raw=on \
     -device ramfb \
+    -monitor tcp:127.0.0.1:4444,server,nowait \
     -global virtio-mmio.force-legacy=false \
     -device virtio-tablet-device \
     -device virtio-keyboard-device \
     -display gtk \
-    -no-shutdown \
+    -no-reboot \
     -serial stdio
