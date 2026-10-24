@@ -131,11 +131,11 @@ fi
 SECS=${1:-3600}
 if [ -n "$DISPLAY" ]; then
     echo "[*] Affichage détecté sur $DISPLAY (Termux-X11 / X11)"
-    exec ./qemu/run-ios.sh "$SECS" -display x11
+    exec bash ./qemu/run-ios.sh "$SECS" -display x11
 else
     echo "[*] Aucun DISPLAY détecté. Démarrage avec serveur VNC sur le port 5900..."
-    echo "[*] Ouvrez votre application AVNC sur le Pixel 8 et connectez-vous à 127.0.0.1:5900"
-    exec ./qemu/run-ios.sh "$SECS" -display vnc=:0
+    echo "[*] Ouvrez votre application RealVNC Viewer sur le Pixel 8 et connectez-vous à 127.0.0.1:5900"
+    exec bash ./qemu/run-ios.sh "$SECS" -display vnc=:0
 fi
 EOF
 chmod +x "$STAGING_DIR/setup_and_run_pixel.sh"
