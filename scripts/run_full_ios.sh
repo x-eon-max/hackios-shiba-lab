@@ -6,7 +6,7 @@ KERNEL_DIR="$ROOT_DIR/../hackios-kernel"
 
 echo "=== Lancement de HackIOS iOS 16.5 complet sous QEMU virt (GTK) ==="
 
-SECS=${1:-300}
+SECS=${1:-3600}
 
 # Redimensionne automatiquement la fenêtre pour un écran 1080p (ratio 9:19.5, hauteur 950px max)
 (
