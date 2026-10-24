@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
-# Test harness: Démarre XNU Darwin 22.5.0 + notre Userland APFS sous QEMU virt
+# Test harness: Boots Darwin XNU 22.5.0 + custom APFS Userland under QEMU virt
 set -e
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 QEMU_DIR="$ROOT_DIR/../hackios-kernel/qemu"
 
-echo "=== Démarrage du banc de test QEMU HackIOS (Darwin ARM64) ==="
+echo "=== Starting HackIOS QEMU Test Harness (Darwin ARM64) ==="
 
-# Vérification du noyau précompilé
+# Check for prebuilt kernel and ramdisk
 KERNEL="$ROOT_DIR/../hackios-kernel/prebuilt/mach.development.bcm2837"
 RAMDISK="$ROOT_DIR/userland/prebuilt/root.apfs"
 
-[ -f "$KERNEL" ] || { echo "Erreur: noyau non trouvé à $KERNEL"; exit 1; }
-[ -f "$RAMDISK" ] || { echo "Erreur: image APFS non trouvée à $RAMDISK"; exit 1; }
+[ -f "$KERNEL" ] || { echo "Error: kernel not found at $KERNEL"; exit 1; }
+[ -f "$RAMDISK" ] || { echo "Error: APFS image not found at $RAMDISK"; exit 1; }
 
-echo "[*] Génération du conteneur XNUP..."
+echo "[*] Generating XNUP payload..."
 python3 "$ROOT_DIR/tools/mkpayload.py" -o "$QEMU_DIR/payload.bin" \
     kernel="$KERNEL" ramdisk="$RAMDISK" \
     --cmdline "-v cpus=1"
 
-echo "[*] Lancement de QEMU ARM64 (virt, GICv3, Cortex-A76)..."
+echo "[*] Booting QEMU ARM64 (virt, GICv3, Cortex-A76)..."
 (
     cd "$QEMU_DIR"
     timeout 15 qemu-system-aarch64 \
@@ -37,4 +37,4 @@ echo "[*] Lancement de QEMU ARM64 (virt, GICv3, Cortex-A76)..."
 ) | tee "$ROOT_DIR/qemu_run.log" || true
 
 echo ""
-echo "=== Test terminé. Journal sauvegardé dans $ROOT_DIR/qemu_run.log ==="
+echo "=== Test finished. Execution log saved to $ROOT_DIR/qemu_run.log ==="

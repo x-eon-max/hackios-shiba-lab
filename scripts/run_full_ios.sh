@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Démarre le système complet iOS 16.5 sous QEMU virt avec affichage graphique GTK
+# Boots full iOS 16.5 under QEMU virt with GTK graphical display
 set -e
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 KERNEL_DIR="$ROOT_DIR/../hackios-kernel"
 
-echo "=== Lancement de HackIOS iOS 16.5 complet sous QEMU virt (GTK) ==="
+echo "=== Launching full HackIOS iOS 16.5 under QEMU virt (GTK) ==="
 
 SECS=${1:-3600}
 
-# Redimensionne automatiquement la fenêtre pour un écran 1080p (ratio 9:19.5, hauteur 950px max)
+# Automatically resize QEMU window for 1080p desktop view (9:19.5 aspect ratio, max 950px height)
 (
     for i in {1..30}; do
         if WID=$(xdotool search --name "QEMU" 2>/dev/null | head -n 1); [ -n "$WID" ]; then

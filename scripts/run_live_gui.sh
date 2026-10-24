@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
-# Lance QEMU avec affichage vidéo interactif (fenêtre graphique GTK)
+# Launches QEMU with interactive video display (GTK window)
 set -e
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 QEMU_DIR="$ROOT_DIR/../hackios-kernel/qemu"
 
-echo "=== Lancement de HackIOS sous QEMU avec sortie vidéo en direct (GTK) ==="
+echo "=== Launching HackIOS under QEMU with live video output (GTK) ==="
 
 KERNEL="$ROOT_DIR/../hackios-kernel/prebuilt/mach.development.bcm2837"
 RAMDISK="$ROOT_DIR/userland/prebuilt/root.apfs"
 
-[ -f "$KERNEL" ] || { echo "Erreur: noyau non trouvé à $KERNEL"; exit 1; }
-[ -f "$RAMDISK" ] || { echo "Erreur: image APFS non trouvée à $RAMDISK"; exit 1; }
+[ -f "$KERNEL" ] || { echo "Error: kernel not found at $KERNEL"; exit 1; }
+[ -f "$RAMDISK" ] || { echo "Error: APFS image not found at $RAMDISK"; exit 1; }
 
-echo "[*] Packaging du conteneur XNUP..."
+echo "[*] Packaging XNUP payload..."
 python3 "$ROOT_DIR/tools/mkpayload.py" -o "$QEMU_DIR/payload.bin" \
     kernel="$KERNEL" ramdisk="$RAMDISK" \
     --cmdline "-v cpus=1"
 
-echo "[*] Ouverture de la fenêtre graphique QEMU..."
+echo "[*] Opening QEMU graphical window..."
 cd "$QEMU_DIR"
 exec qemu-system-aarch64 \
     -M virt,gic-version=3 \

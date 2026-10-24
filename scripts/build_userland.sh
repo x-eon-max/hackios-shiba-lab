@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# Assemble l'image APFS complète pour Shiba / virt avec tous les tests unitaires
+# Assembles the full APFS ramdisk image for Shiba / virt with all unit tests
 set -e
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-echo "=== Assemblage du conteneur APFS (root.apfs) pour Shiba ==="
+echo "=== Assembling APFS Container (root.apfs) for Shiba ==="
 
 INIT_BIN="$ROOT_DIR/userland/prebuilt/init"
-[ -f "$INIT_BIN" ] || { echo "Erreur: init non trouvé à $INIT_BIN"; exit 1; }
+[ -f "$INIT_BIN" ] || { echo "Error: init binary not found at $INIT_BIN"; exit 1; }
 
-# Préparation du binaire statique child
+# Prepare static child binary
 mkdir -p "$ROOT_DIR/userland/build_obj"
 if [ ! -f "$ROOT_DIR/userland/build_obj/child" ]; then
-    echo "[*] Création du binaire statique child..."
+    echo "[*] Creating static child binary..."
     python3 -c "
 with open('$ROOT_DIR/../hackios-kernel/prebuilt/userland/hello', 'rb') as f:
     data = bytearray(f.read())
@@ -26,28 +26,28 @@ with open('$ROOT_DIR/userland/build_obj/child', 'wb') as f:
     chmod 0755 "$ROOT_DIR/userland/build_obj/child"
 fi
 
-# Préparation du répertoire racine temporaire
+# Prepare temporary root filesystem layout
 TMP_ROOT=$(mktemp -d)
 mkdir -p "$TMP_ROOT/sbin" "$TMP_ROOT/bin" "$TMP_ROOT/etc" "$TMP_ROOT/dev" \
          "$TMP_ROOT/share" "$TMP_ROOT/LaunchDaemons" "$TMP_ROOT/empty" "$TMP_ROOT/hal" "$TMP_ROOT/xpc" \
          "$TMP_ROOT/private/var" "$TMP_ROOT/private/preboot"
 
-# Binaires init et launchd
+# init and launchd binaries
 cp "$INIT_BIN" "$TMP_ROOT/sbin/init"
 ln -sf init "$TMP_ROOT/sbin/launchd"
 
-# Binaires additionnels
+# Additional helper binaries
 cp "$ROOT_DIR/userland/build_obj/child" "$TMP_ROOT/bin/child"
 [ -f "$ROOT_DIR/../hackios-kernel/prebuilt/userland/var_store" ] && \
     cp "$ROOT_DIR/../hackios-kernel/prebuilt/userland/var_store" "$TMP_ROOT/bin/"
 [ -f "$ROOT_DIR/../hackios-kernel/userland/com.redwood.varstore.plist" ] && \
     cp "$ROOT_DIR/../hackios-kernel/userland/com.redwood.varstore.plist" "$TMP_ROOT/LaunchDaemons/"
 
-# Symlinks racine
+# Root symlinks
 ln -sf /redwood "$TMP_ROOT/shiba"
 ln -sf private/var/tmp "$TMP_ROOT/tmp"
 
-# Fichiers de configuration
+# System configuration files
 cat << 'EOF' > "$TMP_ROOT/etc/motd"
 Darwin on Shiba (Tensor G3 / Pixel 8)
 
@@ -62,16 +62,16 @@ Darwin on Shiba (Tensor G3 / Pixel 8)
        [ Apple Inc. - Darwin 22.5.0 ]
 EOF
 
-# Script rc pour maintenir la machine active et éviter le bootloop (pause au lieu de reboot immédiat)
+# rc script to keep the session alive
 echo "sleep 999999" > "$TMP_ROOT/etc/rc"
 cp "$ROOT_DIR/config/var.skel" "$TMP_ROOT/etc/var.skel"
 
-# Fichier pattern (300 000 octets) pour le test mmap/read
+# Test pattern file (300,000 bytes) for mmap/read verification
 python3 -c "import sys; sys.stdout.buffer.write(bytes((i*31 + (i>>8)) & 0xff for i in range(300000)))" > "$TMP_ROOT/share/pattern.bin"
 
-# Assemblage du conteneur APFS
-echo "[*] Construction de root.apfs..."
+# Assemble APFS container
+echo "[*] Packaging root.apfs..."
 python3 "$ROOT_DIR/tools/mkapfs.py" -z -o "$ROOT_DIR/userland/prebuilt/root.apfs" redwood="$TMP_ROOT"
 rm -rf "$TMP_ROOT"
 
-echo "=== Succès : Image générée dans $ROOT_DIR/userland/prebuilt/root.apfs ==="
+echo "=== Success: APFS image created at $ROOT_DIR/userland/prebuilt/root.apfs ==="
