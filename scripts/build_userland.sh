@@ -1,43 +1,61 @@
 #!/usr/bin/env bash
-# Compile les outils userland Mach-O ARM64 pour Shiba et assemble l'image APFS
+# Assemble l'image APFS complète pour Shiba / virt avec tous les tests unitaires
 set -e
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-echo "=== Compilation des binaires Mach-O 64-bit pour Shiba ==="
+echo "=== Assemblage du conteneur APFS (root.apfs) pour Shiba ==="
 
-TRIPLE="arm64-apple-darwin"
-CLANG_FLAGS="-target $TRIPLE -fuse-ld=lld -nostdlib -ffreestanding -fno-stack-protector -fno-builtin"
-LINK_FLAGS="-Wl,-e,_start -Wl,-pagezero_size,0x100000000 -Wl,-alias,_memset,_bzero"
-INCLUDES="-I$ROOT_DIR/userland/include"
+INIT_BIN="$ROOT_DIR/userland/prebuilt/init"
+[ -f "$INIT_BIN" ] || { echo "Erreur: init non trouvé à $INIT_BIN"; exit 1; }
 
+# Préparation du binaire statique child
 mkdir -p "$ROOT_DIR/userland/build_obj"
+if [ ! -f "$ROOT_DIR/userland/build_obj/child" ]; then
+    echo "[*] Création du binaire statique child..."
+    python3 -c "
+with open('$ROOT_DIR/../hackios-kernel/prebuilt/userland/hello', 'rb') as f:
+    data = bytearray(f.read())
+data[0x3e24:0x3e30] = bytes([
+    0x30, 0x00, 0x80, 0x52,  # mov w16, #1 (SYS_exit)
+    0x40, 0x05, 0x80, 0xd2,  # mov x0, #42 (exit 42)
+    0x01, 0x10, 0x00, 0xd4   # svc #0x80
+])
+with open('$ROOT_DIR/userland/build_obj/child', 'wb') as f:
+    f.write(data)
+"
+    chmod 0755 "$ROOT_DIR/userland/build_obj/child"
+fi
 
-# 1. Compilation de la micro-libc
-clang -target $TRIPLE -c "$ROOT_DIR/userland/src/mini.c" $INCLUDES -o "$ROOT_DIR/userland/build_obj/mini.o"
-clang -target $TRIPLE -c "$ROOT_DIR/userland/src/start.S" -o "$ROOT_DIR/userland/build_obj/start.o"
-
-# 2. Compilation des outils statiques
-for prog in init stage0; do
-    echo "[*] Compilation de $prog..."
-    clang $CLANG_FLAGS $LINK_FLAGS \
-        "$ROOT_DIR/userland/src/$prog.c" \
-        "$ROOT_DIR/userland/build_obj/mini.o" \
-        "$ROOT_DIR/userland/build_obj/start.o" \
-        $INCLUDES \
-        -o "$ROOT_DIR/userland/build_obj/$prog"
-    
-    file "$ROOT_DIR/userland/build_obj/$prog"
-done
-
-# 3. Assemblage du conteneur APFS (root.apfs)
-echo "[*] Construction de root.apfs..."
+# Préparation du répertoire racine temporaire
 TMP_ROOT=$(mktemp -d)
-mkdir -p "$TMP_ROOT/sbin" "$TMP_ROOT/bin" "$TMP_ROOT/etc" "$TMP_ROOT/dev" "$TMP_ROOT/private/var" "$TMP_ROOT/private/preboot"
-cp "$ROOT_DIR/userland/build_obj/init" "$TMP_ROOT/sbin/init"
-ln -sf init "$TMP_ROOT/sbin/launchd"
-cp "$ROOT_DIR/userland/build_obj/stage0" "$TMP_ROOT/sbin/stage0"
-ln -sf /redwood "$TMP_ROOT/shiba"
+mkdir -p "$TMP_ROOT/sbin" "$TMP_ROOT/bin" "$TMP_ROOT/etc" "$TMP_ROOT/dev" \
+         "$TMP_ROOT/share" "$TMP_ROOT/LaunchDaemons" "$TMP_ROOT/empty" "$TMP_ROOT/hal" "$TMP_ROOT/xpc" \
+         "$TMP_ROOT/private/var" "$TMP_ROOT/private/preboot"
 
+# Binaires init et launchd
+cp "$INIT_BIN" "$TMP_ROOT/sbin/init"
+ln -sf init "$TMP_ROOT/sbin/launchd"
+
+# Binaires additionnels
+cp "$ROOT_DIR/userland/build_obj/child" "$TMP_ROOT/bin/child"
+[ -f "$ROOT_DIR/../hackios-kernel/prebuilt/userland/var_store" ] && \
+    cp "$ROOT_DIR/../hackios-kernel/prebuilt/userland/var_store" "$TMP_ROOT/bin/"
+[ -f "$ROOT_DIR/../hackios-kernel/userland/com.redwood.varstore.plist" ] && \
+    cp "$ROOT_DIR/../hackios-kernel/userland/com.redwood.varstore.plist" "$TMP_ROOT/LaunchDaemons/"
+
+# Symlinks racine
+ln -sf /redwood "$TMP_ROOT/shiba"
+ln -sf private/var/tmp "$TMP_ROOT/tmp"
+
+# Fichiers de configuration
+echo "Darwin on redwood: image built $(date '+%Y-%m-%d %H:%M')" > "$TMP_ROOT/etc/motd"
+cp "$ROOT_DIR/config/var.skel" "$TMP_ROOT/etc/var.skel"
+
+# Fichier pattern (300 000 octets) pour le test mmap/read
+python3 -c "import sys; sys.stdout.buffer.write(bytes((i*31 + (i>>8)) & 0xff for i in range(300000)))" > "$TMP_ROOT/share/pattern.bin"
+
+# Assemblage du conteneur APFS
+echo "[*] Construction de root.apfs..."
 python3 "$ROOT_DIR/tools/mkapfs.py" -z -o "$ROOT_DIR/userland/prebuilt/root.apfs" redwood="$TMP_ROOT"
 rm -rf "$TMP_ROOT"
 
