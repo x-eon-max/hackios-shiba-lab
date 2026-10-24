@@ -97,11 +97,22 @@ dst = os.open(sys.argv[2], os.O_RDWR | os.O_CREAT | os.O_TRUNC, 0o644)
 offset, size = int(sys.argv[3]), int(sys.argv[4])
 os.ftruncate(dst, size)
 total, done = os.fstat(src).st_size, 0
-while done < total:
-    copied = os.copy_file_range(src, dst, total - done, done, offset + done)
-    if copied == 0: break
-    done += copied
-print(f"ram.img prêt ({done} octets)")
+if hasattr(os, 'copy_file_range'):
+    try:
+        while done < total:
+            done += os.copy_file_range(src, dst, total - done, done, offset + done)
+    except Exception:
+        done = 0
+if done < total:
+    os.lseek(src, 0, os.SEEK_SET)
+    os.lseek(dst, offset, os.SEEK_SET)
+    while True:
+        chunk = os.read(src, 8 * 1024 * 1024)
+        if not chunk: break
+        os.write(dst, chunk)
+os.close(src)
+os.close(dst)
+print(f"ram.img prêt")
 PY
 fi
 
