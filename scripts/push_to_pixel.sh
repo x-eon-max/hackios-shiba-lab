@@ -117,7 +117,9 @@ PY
 fi
 
 # 3. Paramètres optimisés pour le Pixel 8 (Tensor G3, 8 Go RAM)
-export QEMU_RAM_GB=4
+# Le guest a besoin de 7G d'espace d'adressage virtuel pour mapper system.apfs (2.4 Go à l'offset 0xFC000000)
+# Sur l'hôte Android, cela ne consomme que ~2.5 Go de RAM réelle grâce au demand paging
+export QEMU_RAM_GB=7
 export QEMU_FORCE=1
 export QEMU_SMP=4
 export CMDLINE="cpus=4"
