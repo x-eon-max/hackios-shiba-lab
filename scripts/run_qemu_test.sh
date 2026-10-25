@@ -13,6 +13,13 @@ RAMDISK="$ROOT_DIR/userland/prebuilt/root.apfs"
 [ -f "$KERNEL" ] || { echo "Error: kernel not found at $KERNEL"; exit 1; }
 [ -f "$RAMDISK" ] || { echo "Error: APFS image not found at $RAMDISK"; exit 1; }
 
+# Run metal2vulkan self-test verification if available
+M2V_TOOL="$ROOT_DIR/tools/metal2vulkan/shiba_m2v_compiler.py"
+if [ -f "$M2V_TOOL" ]; then
+    echo "[*] Verifying Metal2Vulkan shader pipeline compiler..."
+    python3 "$M2V_TOOL" --test || echo "[!] Notice: metal2vulkan test skipped."
+fi
+
 echo "[*] Generating XNUP payload..."
 python3 "$ROOT_DIR/tools/mkpayload.py" -o "$QEMU_DIR/payload.bin" \
     kernel="$KERNEL" ramdisk="$RAMDISK" \

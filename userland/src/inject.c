@@ -549,12 +549,21 @@ static void (*orig_detect_displays)(id server, SEL selector);
 static void
 keep_metal_from_core_animation(void)
 {
+	char arguments[1024] = "";
+	size_t size = sizeof(arguments) - 1;
 	unsigned long (*ask)(id, SEL) = (unsigned long (*)(id, SEL))objc_msgSend;
 	void (*tell)(id, SEL) = (void (*)(id, SEL))objc_msgSend;
 	id (*create)(void) = (id (*)(void))dlsym(RTLD_DEFAULT, "MTLCreateSystemDefaultDevice");
 	id *slot = (id *)(MTL_DEVICE_ARRAY + slide);
 	id device, array;
 	unsigned long held;
+
+	if (sysctlbyname("kern.bootargs", arguments, &size, NULL, 0) == 0 &&
+	    (strstr(arguments, "camtl=1") != NULL || strstr(arguments, "metal=1") != NULL ||
+	     strstr(arguments, "shiba_gpu=1") != NULL)) {
+		say("shiba: camtl=1/metal=1: CoreAnimation keeps Metal device (backed by metal2vulkan on Mali-G715)\n");
+		return;
+	}
 
 	if (create == NULL) {
 		say("redwood: metal: this process has no MTLCreateSystemDefaultDevice; nothing to keep\n");
@@ -1062,15 +1071,15 @@ input_thread(__unused void *arg)
 			continue;
 		}
 		IOHIDEventSystemClientScheduleWithDispatchQueue(client, dispatch_queue_create("redwood.input", NULL));
-		screen = make_service(client, "Redwood touch screen", HID_PAGE_DIGITIZER, HID_USAGE_TOUCH_SCREEN, true);
+		screen = make_service(client, "Shiba touch screen", HID_PAGE_DIGITIZER, HID_USAGE_TOUCH_SCREEN, true);
 		if (screen == NULL) {
-			say("redwood: input: a HID client of type %d may not create services\n", types[i]);
+			say("shiba: input: a HID client of type %d may not create services\n", types[i]);
 		}
 	}
 	if (screen != NULL) {
-		buttons = make_service(client, "Redwood buttons", HID_PAGE_CONSUMER, HID_USAGE_CONSUMER_CONTROL, false);
+		buttons = make_service(client, "Shiba buttons", HID_PAGE_CONSUMER, HID_USAGE_CONSUMER_CONTROL, false);
 	}
-	say("redwood: input: touch screen service %p, buttons %p\n", (void *)screen, (void *)buttons);
+	say("shiba: input: touch screen service %p, buttons %p\n", (void *)screen, (void *)buttons);
 	dispatch_semaphore_signal(input_services_made); /* see wait_for_als_arrival() */
 	if (screen == NULL) {
 		return NULL;

@@ -1,0 +1,1908 @@
+{
+  "$schema": "https://schema.khronos.org/vulkan/profiles-0.8-latest.json#",
+  "provenance": {
+    "source": "derived",
+    "base_url": "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Profiles/vulkan-sdk-1.4.357.0/profiles/LunarG/VP_LUNARG_minimum_requirements.json",
+    "base_sha256": "0feaf3db72f398717f1de96d138896b6756934ef8d178d934147de0cd6691e72",
+    "base_profile": "VP_LUNARG_minimum_requirements_1_2",
+    "registry": {
+      "url": "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Headers/v1.4.364/registry/vk.xml",
+      "sha256": "4cfe3c137f3a95c15275b1cfda0aee407dbf131de2005a3552aa41c49f895c89"
+    },
+    "rule": "features reduced to the unconditional VK_VERSION_1_0..1_2 feature requirements of vk.xml; limits and properties are the base profile's minimums, but where the Vulkan 1.2 specification states another (spec_corrections); plus the m2v_unrequired_properties block: the weakest value the specification permits for each property the product reads, and the profiles layer sets, that the base profile leaves without a requirement; plus the m2v_consumer_floor block: the features the consumer always enables (DESIGN D8.4)",
+    "dropped_features": [
+      "VkPhysicalDeviceVulkan12Features.descriptorIndexing",
+      "VkPhysicalDeviceVulkan12Features.drawIndirectCount",
+      "VkPhysicalDeviceVulkan12Features.samplerFilterMinmax",
+      "VkPhysicalDeviceVulkan12Features.samplerMirrorClampToEdge",
+      "VkPhysicalDeviceVulkan12Features.shaderOutputLayer",
+      "VkPhysicalDeviceVulkan12Features.shaderOutputViewportIndex"
+    ],
+    "spec_corrections": [
+      "VkPhysicalDeviceProperties.maxDrawIndexedIndexValue: 16777216 -> 16777215",
+      "VkPhysicalDeviceVulkan12Properties.supportedDepthResolveModes: [] -> [\"VK_RESOLVE_MODE_SAMPLE_ZERO_BIT\"]",
+      "VkPhysicalDeviceVulkan12Properties.supportedStencilResolveModes: [] -> [\"VK_RESOLVE_MODE_SAMPLE_ZERO_BIT\"]"
+    ],
+    "added_features": [
+      "VkPhysicalDeviceFeatures.shaderInt16",
+      "VkPhysicalDeviceFeatures.shaderStorageImageReadWithoutFormat",
+      "VkPhysicalDeviceFeatures.shaderStorageImageWriteWithoutFormat",
+      "VkPhysicalDeviceVulkan11Features.storageBuffer16BitAccess",
+      "VkPhysicalDeviceVulkan12Features.storageBuffer8BitAccess"
+    ],
+    "required_formats": {
+      "url": "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v1.2.203/chapters/formats.txt",
+      "sha256": "2031f11fe2b7269502eecab10f0c6f386e33c34fcc5be02f0c25fc8bb50badd5",
+      "tag": "v1.2.203",
+      "attributes": [
+        "VK_VERSION_1_0",
+        "VK_VERSION_1_1",
+        "VK_VERSION_1_2"
+      ],
+      "tables": [
+        "formats-mandatory-features-subbyte",
+        "formats-mandatory-features-2byte",
+        "formats-mandatory-features-4byte",
+        "formats-mandatory-features-10bit",
+        "formats-mandatory-features-16bit",
+        "formats-mandatory-features-32bit",
+        "formats-mandatory-features-64bit",
+        "formats-mandatory-features-depth-stencil",
+        "formats-mandatory-features-bcn",
+        "formats-mandatory-features-etc",
+        "formats-mandatory-features-astc"
+      ],
+      "rule": "the Required Format Support tables of the Vulkan 1.2 specification, read by scripts/regen-device-profiles/required_formats.py: m2v_vulkan12_required_formats holds every unconditional entry and m2v_vulkan12_required_formats_if_<feature> the entries a feature this profile requires makes unconditional; `conditional` lists every conditional requirement (at least one table of `any_of` holds in full, on a device supporting `if_feature` when present)",
+      "conditional": [
+        {
+          "tables": [
+            "formats-mandatory-features-2byte"
+          ],
+          "if_feature": "shaderStorageImageExtendedFormats",
+          "any_of": [
+            {
+              "VK_FORMAT_R8G8_SINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R8G8_SNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R8G8_UINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R8G8_UNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R8_SINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R8_SNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R8_UINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R8_UNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "tables": [
+            "formats-mandatory-features-10bit"
+          ],
+          "if_feature": "shaderStorageImageExtendedFormats",
+          "any_of": [
+            {
+              "VK_FORMAT_A2B10G10R10_UINT_PACK32": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_A2B10G10R10_UNORM_PACK32": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "tables": [
+            "formats-mandatory-features-16bit"
+          ],
+          "if_feature": "shaderStorageImageExtendedFormats",
+          "any_of": [
+            {
+              "VK_FORMAT_R16G16B16A16_SNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16G16B16A16_UNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16G16_SFLOAT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16G16_SINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16G16_SNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16G16_UINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16G16_UNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16_SFLOAT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16_SINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16_SNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16_UINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              },
+              "VK_FORMAT_R16_UNORM": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "tables": [
+            "formats-mandatory-features-64bit"
+          ],
+          "if_feature": "shaderStorageImageExtendedFormats",
+          "any_of": [
+            {
+              "VK_FORMAT_B10G11R11_UFLOAT_PACK32": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "tables": [
+            "formats-mandatory-features-depth-stencil"
+          ],
+          "any_of": [
+            {
+              "VK_FORMAT_X8_D24_UNORM_PACK32": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT"
+                ]
+              }
+            },
+            {
+              "VK_FORMAT_D32_SFLOAT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "tables": [
+            "formats-mandatory-features-depth-stencil"
+          ],
+          "any_of": [
+            {
+              "VK_FORMAT_D24_UNORM_S8_UINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT"
+                ]
+              }
+            },
+            {
+              "VK_FORMAT_D32_SFLOAT_S8_UINT": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "tables": [
+            "formats-mandatory-features-astc",
+            "formats-mandatory-features-bcn",
+            "formats-mandatory-features-etc"
+          ],
+          "any_of": [
+            {
+              "VK_FORMAT_ASTC_10x10_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_10x10_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_10x5_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_10x5_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_10x6_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_10x6_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_10x8_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_10x8_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_12x10_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_12x10_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_12x12_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_12x12_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_4x4_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_4x4_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_5x4_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_5x4_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_5x5_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_5x5_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_6x5_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_6x5_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_6x6_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_6x6_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_8x5_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_8x5_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_8x6_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_8x6_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_8x8_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ASTC_8x8_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              }
+            },
+            {
+              "VK_FORMAT_BC1_RGBA_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC1_RGBA_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC1_RGB_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC1_RGB_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC2_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC2_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC3_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC3_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC4_SNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC4_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC5_SNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC5_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC6H_SFLOAT_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC6H_UFLOAT_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC7_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_BC7_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              }
+            },
+            {
+              "VK_FORMAT_EAC_R11G11_SNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_EAC_R11G11_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_EAC_R11_SNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_EAC_R11_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ETC2_R8G8B8A1_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ETC2_R8G8B8A1_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ETC2_R8G8B8A8_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ETC2_R8G8B8_SRGB_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              },
+              "VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK": {
+                "optimalTilingFeatures": [
+                  "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+                  "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+                  "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+                  "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "not_represented": [
+        {
+          "table": "formats-mandatory-features-depth-stencil",
+          "text": "pname:bufferFeatures must: not support any features for these formats"
+        }
+      ]
+    }
+  },
+  "capabilities": {
+    "vulkan10requirements": {
+      "features": {
+        "VkPhysicalDeviceFeatures": {
+          "robustBufferAccess": true
+        }
+      },
+      "properties": {
+        "VkPhysicalDeviceProperties": {
+          "limits": {
+            "maxImageDimension1D": 4096,
+            "maxImageDimension2D": 4096,
+            "maxImageDimension3D": 256,
+            "maxImageDimensionCube": 4096,
+            "maxImageArrayLayers": 256,
+            "maxTexelBufferElements": 65536,
+            "maxUniformBufferRange": 16384,
+            "maxStorageBufferRange": 134217728,
+            "maxPushConstantsSize": 128,
+            "maxMemoryAllocationCount": 4096,
+            "maxSamplerAllocationCount": 4000,
+            "bufferImageGranularity": 131072,
+            "sparseAddressSpaceSize": 0,
+            "maxBoundDescriptorSets": 4,
+            "maxPerStageDescriptorSamplers": 16,
+            "maxPerStageDescriptorUniformBuffers": 12,
+            "maxPerStageDescriptorStorageBuffers": 4,
+            "maxPerStageDescriptorSampledImages": 16,
+            "maxPerStageDescriptorStorageImages": 4,
+            "maxPerStageDescriptorInputAttachments": 4,
+            "maxPerStageResources": 128,
+            "maxDescriptorSetSamplers": 96,
+            "maxDescriptorSetUniformBuffers": 72,
+            "maxDescriptorSetUniformBuffersDynamic": 8,
+            "maxDescriptorSetStorageBuffers": 24,
+            "maxDescriptorSetStorageBuffersDynamic": 4,
+            "maxDescriptorSetSampledImages": 96,
+            "maxDescriptorSetStorageImages": 24,
+            "maxDescriptorSetInputAttachments": 4,
+            "maxVertexInputAttributes": 16,
+            "maxVertexInputBindings": 16,
+            "maxVertexInputAttributeOffset": 2047,
+            "maxVertexInputBindingStride": 2048,
+            "maxVertexOutputComponents": 64,
+            "maxTessellationGenerationLevel": 0,
+            "maxTessellationPatchSize": 0,
+            "maxTessellationControlPerVertexInputComponents": 0,
+            "maxTessellationControlPerVertexOutputComponents": 0,
+            "maxTessellationControlPerPatchOutputComponents": 0,
+            "maxTessellationControlTotalOutputComponents": 0,
+            "maxTessellationEvaluationInputComponents": 0,
+            "maxTessellationEvaluationOutputComponents": 0,
+            "maxGeometryShaderInvocations": 0,
+            "maxGeometryInputComponents": 0,
+            "maxGeometryOutputComponents": 0,
+            "maxGeometryOutputVertices": 0,
+            "maxGeometryTotalOutputComponents": 0,
+            "maxFragmentInputComponents": 64,
+            "maxFragmentOutputAttachments": 4,
+            "maxFragmentDualSrcAttachments": 0,
+            "maxFragmentCombinedOutputResources": 4,
+            "maxComputeSharedMemorySize": 16384,
+            "maxComputeWorkGroupCount": [
+              65535,
+              65535,
+              65535
+            ],
+            "maxComputeWorkGroupInvocations": 128,
+            "maxComputeWorkGroupSize": [
+              128,
+              128,
+              64
+            ],
+            "subPixelPrecisionBits": 4,
+            "subTexelPrecisionBits": 4,
+            "mipmapPrecisionBits": 4,
+            "maxDrawIndexedIndexValue": 16777215,
+            "maxDrawIndirectCount": 1,
+            "maxSamplerLodBias": 2,
+            "maxSamplerAnisotropy": 1,
+            "maxViewports": 1,
+            "maxViewportDimensions": [
+              4096,
+              4096
+            ],
+            "viewportBoundsRange": [
+              -8192,
+              8192
+            ],
+            "viewportSubPixelBits": 0,
+            "minMemoryMapAlignment": 64,
+            "minTexelBufferOffsetAlignment": 256,
+            "minUniformBufferOffsetAlignment": 256,
+            "minStorageBufferOffsetAlignment": 256,
+            "minTexelOffset": -8,
+            "maxTexelOffset": 7,
+            "minTexelGatherOffset": -8,
+            "maxTexelGatherOffset": 7,
+            "minInterpolationOffset": 0.0,
+            "maxInterpolationOffset": 0.0,
+            "subPixelInterpolationOffsetBits": 0,
+            "maxFramebufferWidth": 4096,
+            "maxFramebufferHeight": 4096,
+            "maxFramebufferLayers": 256,
+            "framebufferColorSampleCounts": [
+              "VK_SAMPLE_COUNT_1_BIT",
+              "VK_SAMPLE_COUNT_4_BIT"
+            ],
+            "framebufferDepthSampleCounts": [
+              "VK_SAMPLE_COUNT_1_BIT",
+              "VK_SAMPLE_COUNT_4_BIT"
+            ],
+            "framebufferStencilSampleCounts": [
+              "VK_SAMPLE_COUNT_1_BIT",
+              "VK_SAMPLE_COUNT_4_BIT"
+            ],
+            "framebufferNoAttachmentsSampleCounts": [
+              "VK_SAMPLE_COUNT_1_BIT",
+              "VK_SAMPLE_COUNT_4_BIT"
+            ],
+            "maxColorAttachments": 4,
+            "sampledImageColorSampleCounts": [
+              "VK_SAMPLE_COUNT_1_BIT",
+              "VK_SAMPLE_COUNT_4_BIT"
+            ],
+            "sampledImageIntegerSampleCounts": [
+              "VK_SAMPLE_COUNT_1_BIT",
+              "VK_SAMPLE_COUNT_4_BIT"
+            ],
+            "sampledImageDepthSampleCounts": [
+              "VK_SAMPLE_COUNT_1_BIT",
+              "VK_SAMPLE_COUNT_4_BIT"
+            ],
+            "sampledImageStencilSampleCounts": [
+              "VK_SAMPLE_COUNT_1_BIT",
+              "VK_SAMPLE_COUNT_4_BIT"
+            ],
+            "storageImageSampleCounts": [
+              "VK_SAMPLE_COUNT_1_BIT"
+            ],
+            "maxSampleMaskWords": 1,
+            "maxClipDistances": 0,
+            "maxCullDistances": 0,
+            "maxCombinedClipAndCullDistances": 0,
+            "discreteQueuePriorities": 2,
+            "pointSizeRange": [
+              1.0,
+              1.0
+            ],
+            "lineWidthRange": [
+              1.0,
+              1.0
+            ],
+            "pointSizeGranularity": 1.0,
+            "lineWidthGranularity": 1.0,
+            "nonCoherentAtomSize": 256
+          },
+          "sparseProperties": {
+            "residencyStandard2DBlockShape": false,
+            "residencyStandard2DMultisampleBlockShape": false,
+            "residencyStandard3DBlockShape": false,
+            "residencyNonResidentStrict": false
+          }
+        }
+      }
+    },
+    "vulkan11requirements": {
+      "features": {
+        "VkPhysicalDeviceVulkan11Features": {
+          "multiview": true
+        }
+      },
+      "properties": {
+        "VkPhysicalDeviceVulkan11Properties": {
+          "subgroupSize": 1,
+          "subgroupSupportedStages": [
+            "VK_SHADER_STAGE_COMPUTE_BIT"
+          ],
+          "subgroupSupportedOperations": [
+            "VK_SUBGROUP_FEATURE_BASIC_BIT"
+          ],
+          "maxMultiviewViewCount": 6,
+          "maxMultiviewInstanceIndex": 134217727,
+          "maxPerSetDescriptors": 1024,
+          "maxMemoryAllocationSize": 1073741824
+        }
+      }
+    },
+    "vulkan12requirements": {
+      "features": {
+        "VkPhysicalDeviceVulkan12Features": {
+          "uniformBufferStandardLayout": true,
+          "subgroupBroadcastDynamicId": true,
+          "imagelessFramebuffer": true,
+          "separateDepthStencilLayouts": true,
+          "hostQueryReset": true,
+          "timelineSemaphore": true,
+          "shaderSubgroupExtendedTypes": true
+        }
+      },
+      "properties": {
+        "VkPhysicalDeviceVulkan12Properties": {
+          "shaderSignedZeroInfNanPreserveFloat16": false,
+          "shaderSignedZeroInfNanPreserveFloat32": false,
+          "shaderSignedZeroInfNanPreserveFloat64": false,
+          "shaderDenormPreserveFloat16": false,
+          "shaderDenormPreserveFloat32": false,
+          "shaderDenormPreserveFloat64": false,
+          "shaderDenormFlushToZeroFloat16": false,
+          "shaderDenormFlushToZeroFloat32": false,
+          "shaderDenormFlushToZeroFloat64": false,
+          "shaderRoundingModeRTEFloat16": false,
+          "shaderRoundingModeRTEFloat32": false,
+          "shaderRoundingModeRTEFloat64": false,
+          "shaderRoundingModeRTZFloat16": false,
+          "shaderRoundingModeRTZFloat32": false,
+          "shaderRoundingModeRTZFloat64": false,
+          "maxUpdateAfterBindDescriptorsInAllPools": 0,
+          "shaderUniformBufferArrayNonUniformIndexingNative": false,
+          "shaderSampledImageArrayNonUniformIndexingNative": false,
+          "shaderStorageBufferArrayNonUniformIndexingNative": false,
+          "shaderStorageImageArrayNonUniformIndexingNative": false,
+          "shaderInputAttachmentArrayNonUniformIndexingNative": false,
+          "robustBufferAccessUpdateAfterBind": false,
+          "quadDivergentImplicitLod": false,
+          "maxPerStageDescriptorUpdateAfterBindSamplers": 0,
+          "maxPerStageDescriptorUpdateAfterBindUniformBuffers": 0,
+          "maxPerStageDescriptorUpdateAfterBindStorageBuffers": 0,
+          "maxPerStageDescriptorUpdateAfterBindSampledImages": 0,
+          "maxPerStageDescriptorUpdateAfterBindStorageImages": 0,
+          "maxPerStageDescriptorUpdateAfterBindInputAttachments": 0,
+          "maxPerStageUpdateAfterBindResources": 0,
+          "maxDescriptorSetUpdateAfterBindSamplers": 0,
+          "maxDescriptorSetUpdateAfterBindUniformBuffers": 0,
+          "maxDescriptorSetUpdateAfterBindUniformBuffersDynamic": 0,
+          "maxDescriptorSetUpdateAfterBindStorageBuffers": 0,
+          "maxDescriptorSetUpdateAfterBindStorageBuffersDynamic": 0,
+          "maxDescriptorSetUpdateAfterBindSampledImages": 0,
+          "maxDescriptorSetUpdateAfterBindStorageImages": 0,
+          "maxDescriptorSetUpdateAfterBindInputAttachments": 0,
+          "supportedDepthResolveModes": [
+            "VK_RESOLVE_MODE_SAMPLE_ZERO_BIT"
+          ],
+          "supportedStencilResolveModes": [
+            "VK_RESOLVE_MODE_SAMPLE_ZERO_BIT"
+          ],
+          "independentResolveNone": false,
+          "independentResolve": false,
+          "filterMinmaxSingleComponentFormats": false,
+          "filterMinmaxImageComponentMapping": false,
+          "maxTimelineSemaphoreValueDifference": 2147483647,
+          "framebufferIntegerColorSampleCounts": [
+            "VK_SAMPLE_COUNT_1_BIT"
+          ]
+        }
+      }
+    },
+    "m2v_unrequired_properties": {
+      "properties": {
+        "VkPhysicalDeviceVulkan11Properties": {
+          "subgroupQuadOperationsInAllStages": false
+        }
+      }
+    },
+    "m2v_consumer_floor": {
+      "features": {
+        "VkPhysicalDeviceFeatures": {
+          "shaderInt16": true,
+          "shaderStorageImageReadWithoutFormat": true,
+          "shaderStorageImageWriteWithoutFormat": true
+        },
+        "VkPhysicalDeviceVulkan11Features": {
+          "storageBuffer16BitAccess": true
+        },
+        "VkPhysicalDeviceVulkan12Features": {
+          "storageBuffer8BitAccess": true
+        }
+      }
+    },
+    "m2v_vulkan12_required_formats": {
+      "formats": {
+        "VK_FORMAT_A1R5G5B5_UNORM_PACK16": {
+          "VkFormatProperties": {
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_A2B10G10R10_UINT_PACK32": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_A2B10G10R10_UNORM_PACK32": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_A8B8G8R8_SINT_PACK32": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_A8B8G8R8_SNORM_PACK32": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_A8B8G8R8_SRGB_PACK32": {
+          "VkFormatProperties": {
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_A8B8G8R8_UINT_PACK32": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_A8B8G8R8_UNORM_PACK32": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_B10G11R11_UFLOAT_PACK32": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_B4G4R4A4_UNORM_PACK16": {
+          "VkFormatProperties": {
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_B8G8R8A8_SRGB": {
+          "VkFormatProperties": {
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_B8G8R8A8_UNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_D16_UNORM": {
+          "VkFormatProperties": {
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_D32_SFLOAT": {
+          "VkFormatProperties": {
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_E5B9G9R9_UFLOAT_PACK32": {
+          "VkFormatProperties": {
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16B16A16_SFLOAT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16B16A16_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16B16A16_SNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16B16A16_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16B16A16_UNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16_SFLOAT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16_SNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16G16_UNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16_SFLOAT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16_SNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R16_UNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32G32B32A32_SFLOAT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32G32B32A32_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32G32B32A32_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32G32B32_SFLOAT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32G32B32_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32G32B32_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32G32_SFLOAT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32G32_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32G32_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32_SFLOAT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_ATOMIC_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_ATOMIC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R32_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_ATOMIC_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_ATOMIC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R5G6B5_UNORM_PACK16": {
+          "VkFormatProperties": {
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8G8B8A8_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8G8B8A8_SNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8G8B8A8_SRGB": {
+          "VkFormatProperties": {
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8G8B8A8_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8G8B8A8_UNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8G8_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8G8_SNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8G8_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8G8_UNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8_SINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8_SNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8_UINT": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT"
+            ]
+          }
+        },
+        "VK_FORMAT_R8_UNORM": {
+          "VkFormatProperties": {
+            "bufferFeatures": [
+              "VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT",
+              "VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT"
+            ],
+            "optimalTilingFeatures": [
+              "VK_FORMAT_FEATURE_TRANSFER_SRC_BIT",
+              "VK_FORMAT_FEATURE_TRANSFER_DST_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT",
+              "VK_FORMAT_FEATURE_BLIT_SRC_BIT",
+              "VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT",
+              "VK_FORMAT_FEATURE_BLIT_DST_BIT",
+              "VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "profiles": {
+    "VP_M2V_vk12_floor": {
+      "version": 1,
+      "api-version": "1.2.131",
+      "label": "Vulkan 1.2 plus the features the consumer always enables (D8.4)",
+      "description": "Derived by scripts/regen-device-profiles/regen_device_profiles.py from VP_LUNARG_minimum_requirements_1_2; see provenance.",
+      "contributors": {},
+      "history": [
+        {
+          "revision": 1,
+          "date": "2026-09-29",
+          "author": "metal2vulkan",
+          "comment": "Generated by scripts/regen-device-profiles/regen_device_profiles.py; see provenance."
+        }
+      ],
+      "capabilities": [
+        "vulkan10requirements",
+        "vulkan11requirements",
+        "vulkan12requirements",
+        "m2v_unrequired_properties",
+        "m2v_consumer_floor",
+        "m2v_vulkan12_required_formats"
+      ]
+    }
+  }
+}

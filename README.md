@@ -16,6 +16,8 @@ hackios-shiba-lab/
 │   ├── hardware_map.md              # Tensor G3 hardware memory & controller specification
 │   ├── zuma.dtsi                    # Base Device Tree Source (GICv3, odm bus, timers)
 │   ├── zuma-cpu.dtsi                # 9-core CPU topology (4x A510, 4x A715, 1x X3)
+│   ├── zuma-gpu.dtsi                # ARM Mali-G715 Immortalis GPU MMIO & interrupts
+│   ├── zuma-drm-dpu.dtsi            # Samsung DPU display processor (1080x2400 OLED)
 │   ├── zuma-usi.dtsi                # Samsung Exynos USI serial controllers & registers
 │   ├── zuma-common-touch.dtsi       # SPI bus 20 and touchscreen GPIO definitions
 │   └── zuma-sec-touch.dtsi          # Samsung S6SY79x touch controller node
@@ -25,12 +27,15 @@ hackios-shiba-lab/
 │       └── loader_shiba_platform.patch # Patch integrating platform_shiba into xnuloader
 ├── userland/
 │   ├── include/
+│   │   ├── shiba_metal.h            # Metal-to-Vulkan driver C/FFI definitions
 │   │   ├── shiba_input.h            # Touch event protocol declarations
 │   │   └── mini.h                   # Micro-libc headers (libmini)
 │   ├── src/
 │   │   ├── init.c                   # Adapted PID 1 launchd with /shiba mount & checks
 │   │   ├── stage0.c                 # Stage 0 loader with /shiba compatibility symlink
-│   │   ├── inject.c                 # Backboardd & QuartzCore hooks (1080x2400 geometry)
+│   │   ├── inject.c                 # Backboardd & QuartzCore hooks (Metal2Vulkan & touch)
+│   │   ├── shiba_metal.m            # Native _MTLDevice / MTLDeviceSPI Metal driver plugin
+│   │   ├── shiba_m2v_bridge.c       # C bridge to metal2vulkan runtime and Vulkan loader
 │   │   ├── rwtouch.c                # Synthetic touch event injector for testing
 │   │   ├── mini.c                   # Lightweight libc implementation (memset, printf, etc.)
 │   │   └── start.S                  # Low-level AAPCS64 assembly entry point
@@ -39,6 +44,9 @@ hackios-shiba-lab/
 │       ├── stage0                   # Tested Mach-O 64-bit arm64 binary
 │       └── root.apfs                # Minimal bootable APFS ramdisk container (4 MB)
 ├── tools/
+│   ├── metal2vulkan/
+│   │   ├── shiba_m2v_compiler.py    # Batch/JIT compiler for .metallib to Vulkan SPIR-V
+│   │   └── mali_g715_profile.json   # Khronos Vulkan profile tailored for Mali-G715
 │   ├── mkapfs.py                    # Standalone pure-Python APFS container builder
 │   └── mkpayload.py                 # Multi-component XNUP payload assembler
 └── scripts/
@@ -46,6 +54,7 @@ hackios-shiba-lab/
     ├── run_live_gui.sh              # Live QEMU execution with graphical GTK display
     ├── run_full_ios.sh              # Full iOS 16.5 boot script with SpringBoard & CoverSheet
     ├── push_to_pixel.sh             # Automated ADB deployment script for physical Pixel 8
+    ├── translate_shaders.sh         # Batch compiler translating iOS shaders to Vulkan
     ├── build_userland.sh            # Mach-O cross-compilation & APFS image packaging
     ├── extract_dtb.sh               # Live Device Tree extractor from connected Pixel 8
     └── screendump.sh                # PPM / PNG framebuffer capture helper
@@ -91,7 +100,13 @@ Extract the live Device Tree from your device over USB:
 ./scripts/extract_dtb.sh --adb
 ```
 
-### 4. Deploy to Physical Pixel 8 via ADB
+### 4. Translate iOS Metal Shaders to Vulkan SPIR-V
+Automatically compile iOS 16.5 system `.metallib` shaders into Vulkan SPIR-V pipelines for Mali-G715:
+```bash
+./scripts/translate_shaders.sh
+```
+
+### 5. Deploy to Physical Pixel 8 via ADB
 Automatically sync the complete bundle (`system.apfs`, kernel, UEFI firmware, and runner scripts) to your phone:
 ```bash
 ./scripts/push_to_pixel.sh
@@ -116,11 +131,29 @@ On Google Pixel 8 (Tensor G3), Google includes **pKVM** (Protected KVM) in the f
 
 ---
 
-## 5. Physical Pixel 8 Bare-Metal Roadmap
+## 5. Metal2Vulkan Hardware Acceleration (ARM Mali-G715 Immortalis)
+
+On Google Tensor G3 (Pixel 8), graphics rendering is powered by the **ARM Mali-G715 Immortalis** GPU (10 execution cores with CSF Command Stream Frontend). iOS 16.5 SpringBoard and QuartzCore rely exclusively on Apple's **Metal** API.
+
+To achieve native GPU rendering without an Apple GPU, the laboratory integrates **[metal2vulkan](https://github.com/steelbrain/metal2vulkan)**:
+
+1. **AIR to SPIR-V Translation**:
+   * Apple Intermediate Representation (LLVM bitcode) inside system `.metallib` files is compiled directly into standard Vulkan 1.3 / 1.2 SPIR-V.
+   * Specialization constants, descriptor set bindings, and uniform reflection layouts are generated automatically via `tools/metal2vulkan/shiba_m2v_compiler.py`.
+2. **Native Darwin Driver (`ShibaMetal`)**:
+   * Subclasses Apple's private `_MTLDevice` and conforms to `<MTLDeviceSPI>`.
+   * Maps Metal buffers, textures, command buffers, and render/compute encoders to the Vulkan device through the C bridge (`shiba_m2v_bridge.c`).
+3. **CoreAnimation Integration**:
+   * With boot-args `camtl=1 metal=1 gpu=1`, QuartzCore and `backboardd` take the Metal rendering path, utilizing hardware-accelerated blurs, widget composition, and UI shaders.
+
+---
+
+## 6. Physical Pixel 8 Bare-Metal Roadmap
 
 1. **Boot Firmware Shim**: Implement a lightweight LinuxBoot / kexec trampoline payload to load `loader.efi` directly from ABL (`fastboot boot boot.img`).
 2. **Native Display Driver**: Map the Samsung DPU (Exynos DRM) controller for 1080×2400 120Hz native OLED framebuffer output.
 3. **Touchscreen Driver**: Bridge Samsung S6SY79x SPI touch reports into normalized HackiOS touch protocol packets.
+4. **Mali CSF Kernel Module**: Direct kernel module submission interface for Mali-G715 Command Stream Frontend.
 
 ---
 

@@ -55,3 +55,23 @@ This specification documents the physical address maps, interrupt controllers, a
   * Connected over `spi_20` bus (Samsung `sec,sec_ts` S6SY79x or ST `st,fts` driver)
   * GPIO IRQ: `gpn0[0]`
   * GPIO Reset: `gpp21[2]`
+
+---
+
+## 5. GPU & Hardware Graphics Acceleration (Mali-G715 & Metal2Vulkan)
+
+* **Architecture**: ARM Mali-G715 Immortalis (10 cores, Valhall 5th Generation / CSF)
+* **MMIO Base Address**: `0x1F000000` (length `0x480000` / 4.5 MB)
+* **GIC Interrupts**:
+  * `IRQ_G3D_IRQJOB_G3D` (GIC SPI 160)
+  * `IRQ_G3D_IRQMMU_G3D` (GIC SPI 161)
+  * `IRQ_G3D_IRQGPU_G3D` (GIC SPI 162)
+* **Firmware / CSF**: Command Stream Frontend (firmware-driven job submission)
+* **Vulkan Driver Baseline**:
+  * Vulkan API version: 1.3
+  * Hardware features: Timeline semaphores, dynamic rendering, synchronization2, descriptor indexing
+* **Metal2Vulkan Acceleration Layer**:
+  * **Role**: Translates Apple AIR (Apple Intermediate Representation / LLVM bitcode inside `.metallib` files) directly to Vulkan SPIR-V 1.3 / 1.2.
+  * **Runtime Bridge**: `ShibaMetal` driver exposing native `_MTLDevice` / `<MTLDeviceSPI>` Objective-C runtime classes backed by `metal2vulkan-runtime` on top of Mali Vulkan (`libvulkan.so`).
+  * **Pipeline Cache**: Pre-compiled SPIR-V pipelines for QuartzCore and system frameworks to achieve sub-millisecond draw calls without runtime JIT compilation delays.
+

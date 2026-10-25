@@ -43,8 +43,14 @@ cp "$ROOT_DIR/userland/build_obj/child" "$TMP_ROOT/bin/child"
 [ -f "$ROOT_DIR/../hackios-kernel/userland/com.redwood.varstore.plist" ] && \
     cp "$ROOT_DIR/../hackios-kernel/userland/com.redwood.varstore.plist" "$TMP_ROOT/LaunchDaemons/"
 
-# Root symlinks
-ln -sf /redwood "$TMP_ROOT/shiba"
+# Root symlinks & directories
+mkdir -p "$TMP_ROOT/shiba/config" "$TMP_ROOT/shiba/shaders" "$TMP_ROOT/shiba/bin"
+ln -sf /shiba "$TMP_ROOT/redwood"
+cp "$ROOT_DIR/config/shiba.conf" "$TMP_ROOT/shiba/config/shiba.conf"
+if [ -f "$ROOT_DIR/tools/metal2vulkan/mali_g715_profile.json" ]; then
+    cp "$ROOT_DIR/tools/metal2vulkan/mali_g715_profile.json" "$TMP_ROOT/etc/mali_g715_profile.json"
+    cp "$ROOT_DIR/tools/metal2vulkan/mali_g715_profile.json" "$TMP_ROOT/shiba/config/mali_g715_profile.json"
+fi
 ln -sf private/var/tmp "$TMP_ROOT/tmp"
 
 # System configuration files
